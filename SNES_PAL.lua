@@ -44,7 +44,7 @@ local function exportPalette()
 end
 
 function populatePalette()
-    for _i = 1, #sprite.palettes[1] - 1 do
+    for _i = 0, #sprite.palettes[1] - 1 do
         local color = sprite.palettes[1]:getColor(_i)
         table.insert(shades, color)
     end
