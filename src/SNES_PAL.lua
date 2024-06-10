@@ -1,6 +1,6 @@
 -- src/SNES_PAL.lua
-local dialogBox = Dialog("SNES PALETTE EXPORTER")
 local snesPaletteModule = {}
+
 -------------------------------------------------------------------
 -- HELPER METHODS
 -------------------------------------------------------------------

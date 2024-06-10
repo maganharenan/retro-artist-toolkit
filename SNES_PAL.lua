@@ -1,7 +1,9 @@
+local dialogBox = Dialog("SNES PALETTE EXPORTER")
+
 local snesPaletteModule = require("src.SNES_PAL")
 
 local sprite = app.sprite
-local shade_pal = {}
+local shades = {}
 
 -------------------------------------------------------------------
 -- HELPER METHODS
@@ -43,8 +45,8 @@ end
 
 function populatePalette()
     for _i = 1, #sprite.palettes[1] - 1 do
-        local c = sprite.palettes[1]:getColor(_i)
-        table.insert(shade_pal, c)
+        local color = sprite.palettes[1]:getColor(_i)
+        table.insert(shades, color)
     end
 end
 
@@ -53,8 +55,8 @@ end
 -------------------------------------------------------------------
 function ShowMain()
     dialogBox: shades {
-        id = 'sha', 
-        colors = shade_pal,
+        id = 'shades', 
+        colors = shades,
     }
     
     :newrow()
@@ -63,11 +65,11 @@ function ShowMain()
         text = "Export"
     }
     
-    dialogBox: file{
+    dialogBox: file {
         id = "exportpal",
-        title = "Export a palette",
+        title = "Export the palette",
         save = true,
-        filename = "Export 4BPP Palette",
+        filename = "palette",
         filetypes = { "pal", "txt" },
         onchange = exportPalette
     }
