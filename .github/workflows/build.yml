@@ -31,6 +31,17 @@ jobs:
           echo "Running build process for Retro Artist Toolkit Version ${{ steps.read_version.outputs.toolkit_version }}"
           cd $GITHUB_WORKSPACE/compiler && lua build_toolkit.lua
 
+      - name: Zip Built Toolkit
+        run: |
+          mkdir -p dist
+          zip -r dist/retro_artist_toolkit_v${{ steps.read_version.outputs.toolkit_version }}.zip $GITHUB_WORKSPACE/retro_artist_toolkit
+
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: built-toolkit
+          path: dist/retro_artist_toolkit_${{ steps.read_version.outputs.toolkit_version }}.zip
+
   release:
     needs: build
     runs-on: ubuntu-latest
@@ -39,8 +50,11 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Install jq
-        run: sudo apt-get install -y jq
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y jq
+          sudo apt-get install -y lua5.4
 
       - name: Read Toolkit Version
         id: read_version
