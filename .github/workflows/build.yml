@@ -37,7 +37,7 @@ jobs:
           zip -r dist/retro_artist_toolkit_v${{ steps.read_version.outputs.toolkit_version }}.zip $GITHUB_WORKSPACE/retro_artist_toolkit
 
       - name: Upload Build Artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: retro_artist_toolkit_v${{ steps.read_version.outputs.toolkit_version }}.zip
           path: dist/retro_artist_toolkit_v${{ steps.read_version.outputs.toolkit_version }}.zip
