@@ -64,6 +64,12 @@ jobs:
           echo "Toolkit Version: $toolkit_version"
           echo "toolkit_version=$toolkit_version" >> $GITHUB_OUTPUT
 
+      - name: Download Build Artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: retro_artist_toolkit_v${{ steps.read_version.outputs.toolkit_version }}.zip
+          path: dist/
+
       - name: Create GitHub Release
         id: create_release
         uses: actions/create-release@v1
