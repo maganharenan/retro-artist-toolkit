@@ -24,7 +24,7 @@ jobs:
         run: |
           toolkit_version=$(jq -r '.toolkit_version' version_control.json)
           echo "Toolkit Version: $toolkit_version"
-          echo "::set-output name=toolkit_version::$toolkit_version"
+          echo "{toolkit_version}={toolkit_version}" >> $GITHUB_OUTPUT
 
       - name: Build Toolkit
         run: |
