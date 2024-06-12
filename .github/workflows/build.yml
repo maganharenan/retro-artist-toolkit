@@ -65,6 +65,7 @@ jobs:
           echo "toolkit_version=$toolkit_version" >> $GITHUB_OUTPUT
 
       - name: Create GitHub Release
+        id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -75,6 +76,10 @@ jobs:
           draft: false
           prerelease: false
 
+      - name: Get Upload URL
+        id: get_upload_url
+        run: echo "::set-output name=upload_url::${{ steps.create_release.outputs.upload_url }}"
+  
       - name: Upload Release Assets
         uses: actions/upload-release-asset@v1
         env:
