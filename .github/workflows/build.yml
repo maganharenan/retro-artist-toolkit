@@ -80,6 +80,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.release.outputs.upload_url }}
-          asset_path: dist/retro_artist_toolkit_v${{ steps.read_version.outputs.toolkit_version }}.zip
+          asset_path: ./dist/retro_artist_toolkit_v${{ steps.read_version.outputs.toolkit_version }}.zip
           asset_name: "retro_artist_toolkit_v${{ steps.read_version.outputs.toolkit_version }}.zip"
           asset_content_type: application/zip
