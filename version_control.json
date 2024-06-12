@@ -1,0 +1,9 @@
+{
+    "toolkit_name": "Retro Artist Toolkit",
+    "toolkit_version": "0.1.0",
+    "tools": {
+      "snes_palette_exporter": {
+        "version": "1.0.0"
+      }
+    }
+  }

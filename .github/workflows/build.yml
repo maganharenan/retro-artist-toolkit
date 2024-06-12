@@ -1,0 +1,67 @@
+name: Build and Release
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Install jq
+        run: sudo apt-get install -y jq
+
+      - name: Read Toolkit Version
+        id: read_version
+        run: |
+          toolkit_version=$(jq -r '.toolkit_version' version_control.json)
+          echo "Toolkit Version: $toolkit_version"
+          echo "::set-output name=toolkit_version::$toolkit_version"
+
+      - name: Build Toolkit
+        run: |
+          echo "Running build process for Retro Artist Toolkit Version ${{ steps.read_version.outputs.toolkit_version }}"
+          cd $GITHUB_WORKSPACE/compiler && lua build_toolkit.lua
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Install jq
+        run: sudo apt-get install -y jq
+
+      - name: Read Toolkit Version
+        id: read_version
+        run: |
+          toolkit_version=$(jq -r '.toolkit_version' version_control.json)
+          echo "::set-output name=toolkit_version::$toolkit_version"
+
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ steps.read_version.outputs.toolkit_version }}
+          release_name: "Retro Artist Toolkit v${{ steps.read_version.outputs.toolkit_version }}"
+          body: "Release of Retro Artist Toolkit version ${{ steps.read_version.outputs.toolkit_version }}"
+          draft: false
+          prerelease: false
+
+      - name: Upload Release Assets
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.release.outputs.upload_url }}
+          asset_path: path/to/your/built/toolkit.zip
+          asset_name: "retro_artist_toolkit_${{ steps.read_version.outputs.toolkit_version }}.zip"
+          asset_content_type: application/zip
