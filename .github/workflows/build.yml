@@ -24,7 +24,7 @@ jobs:
         run: |
           toolkit_version=$(jq -r '.toolkit_version' version_control.json)
           echo "Toolkit Version: $toolkit_version"
-          echo "{toolkit_version}={toolkit_version}" >> $GITHUB_OUTPUT
+          echo "toolkit_version=$toolkit_version" >> $GITHUB_OUTPUT
 
       - name: Build Toolkit
         run: |
@@ -39,8 +39,8 @@ jobs:
       - name: Upload Build Artifact
         uses: actions/upload-artifact@v2
         with:
-          name: built-toolkit
-          path: dist/retro_artist_toolkit_${{ steps.read_version.outputs.toolkit_version }}.zip
+          name: retro_artist_toolkit_v${{ steps.read_version.outputs.toolkit_version }}.zip
+          path: dist/retro_artist_toolkit_v${{ steps.read_version.outputs.toolkit_version }}.zip
 
   release:
     needs: build
