@@ -79,11 +79,25 @@ local function readFile(path)
     return removeComments(content)
 end
 
-local function writeFile(path, content)
-    local file = io.open(path, "w")
+local function createPath()
+    os.execute("mkdir " .. "../retro_artist_toolkit")
+end
 
-    file:write(content)
-    file:close()
+local function writeFile(path, content)
+    local separatedPath = package.config:sub(1,1)
+    local directory = path:match("^(.*" .. separatedPath .. ")")
+    
+    if directory then
+        createPath()
+    end
+
+    local file = io.open(path, "w")
+    if file then
+        file:write(content)
+        file:close()
+    else
+        error("Failed to open file: " .. path)
+    end
 end
 
 -------------------------------------------------------------------
