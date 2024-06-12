@@ -1,6 +1,6 @@
 local dialogBox = Dialog("SNES PALETTE EXPORTER")
 
-local snesPaletteModule = require("src.SNES_PAL")
+local color_converter = require("src.color_converter")
 
 local sprite = app.sprite
 local shades = {}
@@ -25,11 +25,11 @@ local function getHexadecimalPalette()
 end
 
 -------------------------------------------------------------------
--- LOCAL METHODS
+-- METHODS
 -------------------------------------------------------------------
 local function exportPalette()
     local currentPalette = getHexadecimalPalette()
-    local getPaletteHex = snesPaletteModule.GetPaletteHex(currentPalette)
+    local getPaletteHex = color_converter.GetPaletteHex(currentPalette)
 
     local out = io.open(app.fs.normalizePath(dialogBox.data.exportpal), "wb")
 	out:write(getPaletteHex)
