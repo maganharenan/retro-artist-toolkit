@@ -23,7 +23,10 @@ jobs:
         sudo apt-get install -y luarocks
 
     - name: Install Lua modules
-      run: luarocks install busted
+      run: luarocks install busted --local
+
+    - name: Add local LuaRocks to PATH
+      run: echo "::add-path::$HOME/.luarocks/bin"
 
     - name: Run tests
       run: busted tests
