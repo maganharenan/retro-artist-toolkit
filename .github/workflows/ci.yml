@@ -16,12 +16,13 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Set up Lua
-      uses: leafo/gh-actions-lua@v8
-      with:
-        lua-version: "5.4" # Specify your Lua version
-
     - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y lua5.4
+        sudo apt-get install -y luarocks
+
+    - name: Install Lua modules
       run: luarocks install busted
 
     - name: Run tests
