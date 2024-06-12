@@ -81,18 +81,13 @@ jobs:
           body: "Release of Retro Artist Toolkit version ${{ steps.read_version.outputs.toolkit_version }}"
           draft: false
           prerelease: false
-
-      - name: Set Release URL
-        id: set_release_url
-        run: |
-          echo "::set-output name=release_url::https://github.com/${{ github.repository }}/releases/tag/v${{ steps.read_version.outputs.toolkit_version }}"
   
       - name: Upload Release Assets
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.set_release_url.outputs.release_url }}
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: dist/retro_artist_toolkit_v${{ steps.read_version.outputs.toolkit_version }}.zip
           asset_name: "retro_artist_toolkit_v${{ steps.read_version.outputs.toolkit_version }}.zip"
           asset_content_type: application/zip
