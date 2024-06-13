@@ -13,7 +13,6 @@ jobs:
         name: Publish wiki folder to Wiki repository
         runs-on: ubuntu-latest
         steps:  
-  
             - name: Checkout the repository
               uses: actions/checkout@v3
   
@@ -22,4 +21,4 @@ jobs:
               with:
                 path: "wiki"
               env:
-                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                GH_PERSONAL_ACCESS_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
