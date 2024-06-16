@@ -5,6 +5,13 @@ local color_converter = require("src.color_converter")
 local sprite = app.sprite
 local shades = {}
 
+local errors = {
+    noSprite = "There is no sprite open",
+    colorMode = "Sprite color mode must be indexed",
+    width = "Sprite width needs to be a multiple of 8",
+    height = "Sprite height needs to be a multiple of 8"
+}
+
 -------------------------------------------------------------------
 -- HELPER METHODS
 -------------------------------------------------------------------
@@ -24,10 +31,42 @@ local function getHexadecimalPalette()
     return colors
 end
 
+local function showError(message)
+    app.alert{title="Error", text=message, buttons="OK"}
+end
+
+local function isSpriteValid()
+    if not sprite then
+        showError(errors.noSprite)
+        return false
+    end
+
+    if sprite.colorMode ~= ColorMode.INDEXED then
+        showError(errors.colorMode)
+        return false
+    end
+
+    if (sprite.width % 8) ~= 0 then
+        showError(errors.width)
+        return false
+    end
+
+    if (sprite.height % 8) ~= 0 then
+        showError(errors.height)
+        return false
+    end
+
+    return true
+end
+
 -------------------------------------------------------------------
 -- METHODS
 -------------------------------------------------------------------
 local function exportPalette()
+    if not isSpriteValid() then
+		return
+	end
+
     local currentPalette = getHexadecimalPalette()
     local getPaletteHex = color_converter.GetPaletteHex(currentPalette)
 
