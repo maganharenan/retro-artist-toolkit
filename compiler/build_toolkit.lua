@@ -61,6 +61,7 @@ for _, tool in ipairs(tool_list) do
         Logger:print("Importing: " .. dependency_name, Logger.Colors.CYAN)
 
         local dependency_content = file_manager:readFile(dependency)
+        dependency_content = file_cleaner:removeReturnLine(dependency_content, dependency_name)
 
         combined_dependecies = combined_dependecies .. addDependencyHeader(dependency_name)
 
