@@ -15,8 +15,6 @@ function file_cleaner:removeReturnLine(content, dependency)
         end
     end
 
-    print(content)
-
     return table.concat(lines, "\n")
 end
 
