@@ -2,6 +2,24 @@ local Logger = require("logger")
 
 local file_cleaner = {}
 
+function file_cleaner:removeReturnLine(content, dependency)
+    local baseName = dependency:gsub("%.lua$", "")
+
+    Logger:print(Logger.Weight.BOLD .. "Removing return " .. baseName, Logger.Colors.CYAN)
+
+    local lines = {}
+
+    for line in content:gmatch("(.-)\n") do
+        if line ~= "return " .. dependency then
+            table.insert(lines, line)
+        end
+    end
+
+    print(content)
+
+    return table.concat(lines, "\n")
+end
+
 function file_cleaner:removeComments(content)
     Logger:print(Logger.Weight.BOLD .. "[PROCESS] *** REMOVING COMMENTS ***", Logger.Colors.CYAN)
 
@@ -12,7 +30,7 @@ function file_cleaner:removeComments(content)
         end
     end
 
-    Logger:print("Comments were successfully remover", Logger.Colors.GREEN)
+    Logger:print("Comments were successfully removed", Logger.Colors.GREEN)
     Logger:divider(Logger.Colors.CYAN)
     return table.concat(lines, "\n")
 end
