@@ -1,6 +1,21 @@
 -- tests/color_converter_spec.lua
+-- navigate to the dependecy folder and run: `busted --pattern=_spec tests`
 
 local color_converter = require("src.color_converter")
+
+local function hexToBinary(hexString)
+    local binaryString = ""
+    for i = 1, #hexString, 2 do
+        local hexPair = hexString:sub(i, i + 1)
+        local byte = tonumber(hexPair, 16)
+        if byte then
+            binaryString = binaryString .. string.char(byte)
+        else
+            return nil, "Invalid hex character detected"
+        end
+    end
+    return binaryString
+end
 
 describe("Palette Generator Test", function()
 
@@ -63,6 +78,15 @@ describe("Palette Generator Test", function()
 
         local expected = "EF3D3E77F85D0F49FF7FF86F8A6B49626439E02C601898049F0E3E412C000000"
         local passed = color_converter.GetPaletteHex(colors)
+
+        assert.same(passed, expected)
+    end)
+
+    it ("Should convert hex string to binary", function ()
+        local hex = "EF3D3E77F85D0F49FF7FF86F8A6B49626439E02C601898049F0E3E412C000000"
+
+        local expected = "�=>w�]�I���o�kIbd9�,`���>A,���"
+        local passed = hexToBinary(hex)
 
         assert.same(passed, expected)
     end)
