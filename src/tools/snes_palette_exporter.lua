@@ -31,6 +31,20 @@ local function getHexadecimalPalette()
     return colors
 end
 
+local function hexToBinary(hexString)
+    local binaryString = ""
+    for i = 1, #hexString, 2 do
+        local hexPair = hexString:sub(i, i + 1)
+        local byte = tonumber(hexPair, 16)
+        if byte then
+            binaryString = binaryString .. string.char(byte)
+        else
+            return nil, "Invalid hex character detected"
+        end
+    end
+    return binaryString
+end
+
 local function showError(message)
     app.alert{title="Error", text=message, buttons="OK"}
 end
@@ -68,10 +82,11 @@ local function exportPalette()
 	end
 
     local currentPalette = getHexadecimalPalette()
-    local getPaletteHex = color_converter.GetPaletteHex(currentPalette)
+    local paletteHex = color_converter.GetPaletteHex(currentPalette)
+    local binaryPalette = hexToBinary(paletteHex)
 
     local out = io.open(app.fs.normalizePath(dialogBox.data.exportpal), "wb")
-	out:write(getPaletteHex)
+	out:write(binaryPalette)
 	out:close()
 
     dialogBox:modify{
