@@ -31,6 +31,15 @@ local function getHexadecimalPalette()
     return colors
 end
 
+function hexToData(hex)
+    local data = ""
+    for i = 1, #hex, 2 do
+        local byte = hex:sub(i, i + 1)
+        data = data .. string.char(tonumber(byte, 16))
+    end
+    return data
+end
+
 local function showError(message)
     app.alert{title="Error", text=message, buttons="OK"}
 end
@@ -68,10 +77,11 @@ local function exportPalette()
 	end
 
     local currentPalette = getHexadecimalPalette()
-    local getPaletteHex = color_converter.GetPaletteHex(currentPalette)
+    local paletteHex = color_converter.GetPaletteHex(currentPalette)
+    local binaryPalette = hexToData(paletteHex)
 
     local out = io.open(app.fs.normalizePath(dialogBox.data.exportpal), "wb")
-	out:write(getPaletteHex)
+	out:write(binaryPalette)
 	out:close()
 
     dialogBox:modify{
