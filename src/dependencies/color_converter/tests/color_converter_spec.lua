@@ -1,4 +1,5 @@
 -- tests/color_converter_spec.lua
+-- navigate to the dependecy folder and run: `busted --pattern=_spec tests`
 
 local color_converter = require("src.color_converter")
 
