@@ -3,29 +3,6 @@
 
 local color_converter = require("src.color_converter")
 
-local function hexToBinary(hexString)
-    local binaryString = ""
-    for i = 1, #hexString, 2 do
-        local hexPair = hexString:sub(i, i + 1)
-        local byte = tonumber(hexPair, 16)
-        if byte then
-            binaryString = binaryString .. string.char(byte)
-        else
-            return nil, "Invalid hex character detected"
-        end
-    end
-    return binaryString
-end
-
-local function convertHexToBin(hex)
-    local bin = ""
-    hex = hex:gsub("%s", "")  -- Remove any spaces
-    for hexByte in hex:gmatch("%x%x") do
-        bin = bin .. string.char(tonumber(hexByte, 16))
-    end
-    return bin
-end
-
 describe("Palette Generator Test", function()
 
     it ("Should split the hex value into an array of String", function()
